@@ -44,6 +44,8 @@ public abstract class BattleActorMixin {
             if (battlePokemon == null) return;
             new FlagSpeciesFeature(DataKeys.MEGA_SPECIES_FEATURE, true)
                 .apply(battlePokemon.getOriginalPokemon());
+            new FlagSpeciesFeature(DataKeys.MEGA_SPECIES_FEATURE, true)
+                .apply(battlePokemon.getEffectedPokemon());
         }
     }
 

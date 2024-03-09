@@ -11,11 +11,13 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.context.CommandContext;
 import com.selfdot.cobblemonmegas.common.CobblemonMegas;
 import com.selfdot.cobblemonmegas.common.DataKeys;
+import com.selfdot.cobblemonmegas.common.item.MegaStoneHeldItemManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 
 import java.util.List;
+import java.util.Set;
 
 public class MegaEvolveInBattleCommand implements Command<ServerCommandSource> {
 
@@ -42,8 +44,14 @@ public class MegaEvolveInBattleCommand implements Command<ServerCommandSource> {
             context.getSource().sendError(Text.literal("This Pokémon has no Mega form."));
             return -1;
         }
+        if (!MegaStoneHeldItemManager.getInstance().isHoldingValidMegaStone(battlePokemon)) {
+            context.getSource().sendError(Text.literal("This Pokémon is not holding their Mega Stone."));
+            return -1;
+        }
         CobblemonMegas.getInstance().getBattleMegaEvolve().add(playerBattleActor.getUuid());
-        new FlagSpeciesFeature(DataKeys.MEGA_SPECIES_FEATURE, true).apply(pokemon);
+        context.getSource().sendMessage(Text.literal(
+            pokemon.getDisplayName().getString() + " will mega evolve this turn if a move is used."
+        ));
         return SINGLE_SUCCESS;
     }
 
