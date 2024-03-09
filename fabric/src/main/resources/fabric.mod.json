@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "cobblemonmegas",
+  "version": "${version}",
+  "name": "CobblemonMegas",
+  "description": "",
+  "authors": [
+    "selfdot"
+  ],
+  "contact": {
+    "repo": "https://github.com/davo899/CobblemonMegas"
+  },
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.selfdot.cobblemonmegas.fabric.CobblemonMegasFabric"
+    ],
+    "client": []
+  },
+  "mixins": [
+    "mixins.cobblemonmegas-common.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.23",
+    "fabric": ">=0.90.0",
+    "architectury": ">=9.1.12",
+    "minecraft": ">=1.20.1",
+    "java": ">=17"
+  }
+}
