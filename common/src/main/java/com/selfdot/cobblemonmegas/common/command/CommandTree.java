@@ -4,12 +4,19 @@ import com.cobblemon.mod.common.command.argument.PartySlotArgumentType;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.suggestion.Suggestions;
+import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import com.selfdot.cobblemonmegas.common.CobblemonMegas;
 import com.selfdot.cobblemonmegas.common.item.MegaStoneHeldItemManager;
 import com.selfdot.cobblemonmegas.common.util.CommandUtils;
 import net.minecraft.command.CommandRegistryAccess;
+import net.minecraft.command.EntitySelector;
+import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
+
+import java.util.concurrent.CompletableFuture;
 
 import static com.mojang.brigadier.arguments.StringArgumentType.string;
 
@@ -61,17 +68,38 @@ public class CommandTree {
             )
             .then(RequiredArgumentBuilder.<ServerCommandSource, String>
                 argument("megaStone", string())
-                .suggests((context, builder) -> {
-                    MegaStoneHeldItemManager.getInstance().getAllMegaStoneIds().stream()
-                        .filter(id ->
-                            CobblemonMegas.getInstance().getConfig().getMegaStoneWhitelist().contains(id)
-                        )
-                        .forEach(builder::suggest);
-                    return builder.buildFuture();
-                })
+                .suggests(CommandTree::megaStoneIDSuggestions)
                 .executes(new GetMegaStoneCommand())
             )
         );
+        dispatcher.register(LiteralArgumentBuilder.<ServerCommandSource>
+            literal("givemegastone")
+            .requires(source ->
+                !CobblemonMegas.getInstance().isDisabled() &&
+                source.isExecutedByPlayer() &&
+                CommandUtils.hasPermission(source, "selfdot.megas.givemegastone")
+            )
+            .then(RequiredArgumentBuilder.<ServerCommandSource, String>
+                argument("megaStone", string())
+                .suggests(CommandTree::megaStoneIDSuggestions)
+                .then(RequiredArgumentBuilder.<ServerCommandSource, EntitySelector>
+                    argument("players", EntityArgumentType.players())
+                    .executes(new GiveMegaStoneCommand())
+                )
+            )
+        );
+    }
+
+    private static CompletableFuture<Suggestions> megaStoneIDSuggestions(
+        CommandContext<ServerCommandSource> context,
+        SuggestionsBuilder builder
+    ) {
+        MegaStoneHeldItemManager.getInstance().getAllMegaStoneIds().stream()
+            .filter(id ->
+                CobblemonMegas.getInstance().getConfig().getMegaStoneWhitelist().contains(id)
+            )
+            .forEach(builder::suggest);
+        return builder.buildFuture();
     }
 
 }
