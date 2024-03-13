@@ -19,6 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class MegaStoneHeldItemManager implements HeldItemManager {
 
@@ -37,7 +38,7 @@ public class MegaStoneHeldItemManager implements HeldItemManager {
         NbtCompound nbt = megaStone.getNbt();
         if (nbt == null) nbt = new NbtCompound();
         nbt.putString(DataKeys.NBT_KEY_MEGA_STONE, id);
-        nbt.putInt("CustomModelData", 2);
+        nbt.putInt("CustomModelData", customModelData(id));
         megaStone.setNbt(nbt);
         String displayName = id.substring(0, 1).toUpperCase() + id.substring(1);
         if (displayName.endsWith("x") || displayName.endsWith("y")) {
@@ -116,6 +117,12 @@ public class MegaStoneHeldItemManager implements HeldItemManager {
 
     public Set<String> getAllMegaStoneIds() {
         return MEGA_STONE_IDS.keySet();
+    }
+
+    private static final int CUSTOM_MODEL_DATA_OFFSET = 100;
+    private int customModelData(String showdownId) {
+        if (!MEGA_STONE_IDS.containsKey(showdownId)) return 2;
+        return CUSTOM_MODEL_DATA_OFFSET + MEGA_STONE_IDS.keySet().stream().sorted().toList().indexOf(showdownId);
     }
 
     public void loadMegaStoneIds() {

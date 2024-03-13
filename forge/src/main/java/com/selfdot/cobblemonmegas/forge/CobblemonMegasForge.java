@@ -8,7 +8,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-@Mod(DataKeys.MOD_ID)
+@Mod(DataKeys.MOD_NAMESPACE)
 public class CobblemonMegasForge {
 
     {

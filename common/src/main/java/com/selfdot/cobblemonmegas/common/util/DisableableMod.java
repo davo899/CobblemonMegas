@@ -1,10 +1,9 @@
 package com.selfdot.cobblemonmegas.common.util;
 
 import com.mojang.logging.LogUtils;
-import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 
-public abstract class DisableableMod implements ModInitializer {
+public abstract class DisableableMod {
 
     private boolean disabled = false;
     private final Logger LOGGER = LogUtils.getLogger();
