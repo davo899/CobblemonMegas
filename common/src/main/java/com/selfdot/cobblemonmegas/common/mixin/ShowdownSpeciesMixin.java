@@ -4,6 +4,7 @@ import com.cobblemon.mod.common.api.abilities.PotentialAbility;
 import com.cobblemon.mod.common.api.pokemon.PokemonSpecies;
 import com.cobblemon.mod.common.pokemon.FormData;
 import com.cobblemon.mod.common.pokemon.Species;
+import com.selfdot.cobblemonmegas.common.DataKeys;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
@@ -14,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.stream.Stream;
 
 @Mixin(PokemonSpecies.ShowdownSpecies.class)
 public abstract class ShowdownSpeciesMixin {
@@ -25,7 +27,9 @@ public abstract class ShowdownSpeciesMixin {
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void injectConstructor(Species species, FormData form, CallbackInfo ci) {
-        if (form == null || !form.getAspects().contains("mega")) return;
+        if (form == null || Stream.of(DataKeys.MEGA, DataKeys.MEGA_X, DataKeys.MEGA_Y)
+            .noneMatch(aspect -> form.getAspects().contains(aspect))) return;
+
         Iterator<PotentialAbility> abilityIterator = form.getAbilities().iterator();
         abilities = Map.of(
             "0", abilityIterator.hasNext() ? abilityIterator.next().getTemplate().getName() : NO_ABILITY

@@ -6,8 +6,9 @@
   "client": [],
   "mixins": [
     "BattleActorMixin",
-    "GraalShowdownServiceMixin",
-    "ShowdownSpeciesMixin"
+    "ShowdownSpeciesMixin",
+    "PokemonBattleMixin",
+    "ShowdownInterpreterMixin"
   ],
   "injectors": {
     "defaultRequire": 1
