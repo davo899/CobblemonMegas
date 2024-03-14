@@ -76,7 +76,6 @@ public class CommandTree {
             literal("givemegastone")
             .requires(source ->
                 !CobblemonMegas.getInstance().isDisabled() &&
-                source.isExecutedByPlayer() &&
                 CommandUtils.hasPermission(source, "selfdot.megas.givemegastone")
             )
             .then(RequiredArgumentBuilder.<ServerCommandSource, String>
