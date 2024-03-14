@@ -29,9 +29,15 @@ public class MegaUtils {
             return "This Pokémon is not holding their Mega Stone.";
         }
 
-        if (!CobblemonMegas.getInstance().getConfig().getMegaStoneWhitelist().contains(
-            MegaStoneHeldItemManager.getInstance().showdownId(pokemon)
-        )) {
+        if (pokemon.getSpecies().getName().equalsIgnoreCase("rayquaza")) {
+            if (!CobblemonMegas.getInstance().getConfig().isMegaRayquazaAllowed()) {
+                return "Mega Rayquaza is not allowed on this server.";
+            }
+        } else if (
+            !CobblemonMegas.getInstance().getConfig().getMegaStoneWhitelist().contains(
+                MegaStoneHeldItemManager.getInstance().showdownId(pokemon)
+            )
+        ) {
             return "This mega stone cannot be used on this server.";
         }
 

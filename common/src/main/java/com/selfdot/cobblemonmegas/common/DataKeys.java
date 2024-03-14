@@ -8,5 +8,6 @@ public class DataKeys {
     public static final String MEGA_Y = "mega-y";
     public static final String NBT_KEY_MEGA_STONE = "megaStone";
     public static final String MEGA_STONE_WHITELIST = "megaStoneWhitelist";
+    public static final String MEGA_RAYQUAZA_ALLOWED = "megaRayquazaAllowed";
 
 }
