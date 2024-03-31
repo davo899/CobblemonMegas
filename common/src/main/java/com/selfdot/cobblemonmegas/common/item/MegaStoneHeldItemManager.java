@@ -36,12 +36,10 @@ public class MegaStoneHeldItemManager implements HeldItemManager {
             return ItemStack.EMPTY;
         }
         ItemStack megaStone = new ItemStack(Items.EMERALD);
-        NbtCompound nbt = megaStone.getNbt();
-        if (nbt == null) nbt = new NbtCompound();
+        NbtCompound nbt = megaStone.getOrCreateNbt();
         nbt.putString(DataKeys.NBT_KEY_MEGA_STONE, id);
         nbt.putInt("CustomModelData", customModelData(id));
         nbt.putBoolean("italic", false);
-        megaStone.setNbt(nbt);
         String displayName = id.substring(0, 1).toUpperCase() + id.substring(1);
         if (displayName.endsWith("x") || displayName.endsWith("y")) {
             displayName = displayName.substring(0, id.length() - 1) +

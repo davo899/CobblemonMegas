@@ -41,11 +41,9 @@ public class GiveKeyStoneCommand implements Command<ServerCommandSource> {
         KeyStoneType type = KEY_STONE_TYPES.get(keyStoneType);
         players.forEach(player -> {
             ItemStack keyStone = new ItemStack(Items.EMERALD);
-            NbtCompound nbt = keyStone.getNbt();
-            if (nbt == null) nbt = new NbtCompound();
+            NbtCompound nbt = keyStone.getOrCreateNbt();
             nbt.putInt("CustomModelData", type.customModelData());
             nbt.putBoolean(DataKeys.NBT_KEY_KEY_STONE, true);
-            keyStone.setNbt(nbt);
             ItemUtils.setNameNoItalics(keyStone, type.name());
             player.giveItemStack(keyStone);
         });

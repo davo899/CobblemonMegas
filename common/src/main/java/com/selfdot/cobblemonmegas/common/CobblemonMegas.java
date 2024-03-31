@@ -20,6 +20,7 @@ import kotlin.Unit;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 
@@ -64,7 +65,8 @@ public class CobblemonMegas extends DisableableMod {
         CommandRegistrationEvent.EVENT.register(CommandTree::register);
         LifecycleEvent.SERVER_STARTING.register(this::onServerStarting);
         CobblemonEvents.BATTLE_STARTED_PRE.subscribe(Priority.NORMAL, this::onBattleStartedPre);
-        PlayerEvent.PICKUP_ITEM_POST.register(this::onItemPickup);
+        PlayerEvent.PICKUP_ITEM_PRE.register(this::onItemPickup);
+        PlayerEvent.DROP_ITEM.register(this::onItemDrop);
         PlayerEvent.PLAYER_JOIN.register(this::onPlayerJoin);
     }
 
@@ -95,8 +97,16 @@ public class CobblemonMegas extends DisableableMod {
         return Unit.INSTANCE;
     }
 
-    private void onItemPickup(PlayerEntity player, ItemEntity itemEntity, ItemStack itemStack) {
+    private EventResult onItemPickup(PlayerEntity player, ItemEntity itemEntity, ItemStack itemStack) {
         MegaUtils.updateKeyStoneGlow(itemStack, player);
+        return EventResult.pass();
+    }
+
+    private EventResult onItemDrop(PlayerEntity player, ItemEntity itemEntity) {
+        NbtCompound nbt = itemEntity.getStack().getNbt();
+        if (nbt == null || !nbt.getBoolean(DataKeys.NBT_KEY_KEY_STONE)) return EventResult.pass();
+        nbt.remove("Enchantments");
+        return EventResult.pass();
     }
 
     private void onPlayerJoin(ServerPlayerEntity player) {
