@@ -7,6 +7,8 @@ import com.cobblemon.mod.common.battles.ShowdownActionResponse;
 import com.cobblemon.mod.common.battles.ShowdownMoveset;
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon;
 import com.selfdot.cobblemonmegas.common.CobblemonMegas;
+import com.selfdot.cobblemonmegas.common.util.MegaUtils;
+import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -21,6 +23,7 @@ import java.util.UUID;
 public abstract class BattleActorMixin {
 
     @Shadow public abstract UUID getUuid();
+    @Shadow public abstract Iterable<UUID> getPlayerUUIDs();
 
     @Shadow private List<ShowdownActionResponse> responses;
 
@@ -38,8 +41,17 @@ public abstract class BattleActorMixin {
             String megaStone = battlePokemon.getHeldItemManager().showdownId(battlePokemon);
             if (megaStone == null) return;
             moveActionResponse.setGimmickID(ShowdownMoveset.Gimmick.MEGA_EVOLUTION.getId());
-            CobblemonMegas.getInstance().getHasMegaEvolvedThisBattle().add(uuid);
         }
+    }
+
+    @Inject(method = "turn", at = @At("HEAD"), remap = false)
+    private void injectTurn(CallbackInfo ci) {
+        getPlayerUUIDs().forEach(playerId -> {
+            ServerPlayerEntity player = CobblemonMegas.getInstance()
+                .getServer().getPlayerManager().getPlayer(playerId);
+            if (player == null) return;
+            MegaUtils.updateKeyStoneGlow(player);
+        });
     }
 
 }

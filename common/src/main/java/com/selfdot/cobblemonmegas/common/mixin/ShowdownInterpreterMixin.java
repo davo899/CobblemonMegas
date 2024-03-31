@@ -5,8 +5,11 @@ import com.cobblemon.mod.common.api.battles.model.PokemonBattle;
 import com.cobblemon.mod.common.api.pokemon.feature.FlagSpeciesFeature;
 import com.cobblemon.mod.common.battles.ShowdownInterpreter;
 import com.cobblemon.mod.common.battles.pokemon.BattlePokemon;
+import com.selfdot.cobblemonmegas.common.CobblemonMegas;
 import com.selfdot.cobblemonmegas.common.DataKeys;
+import com.selfdot.cobblemonmegas.common.util.MegaUtils;
 import kotlin.Unit;
+import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -38,6 +41,10 @@ public abstract class ShowdownInterpreterMixin {
                 else if (megaStone.endsWith("y")) megaType = DataKeys.MEGA_Y;
                 new FlagSpeciesFeature(megaType, true).apply(battlePokemon.getOriginalPokemon());
                 new FlagSpeciesFeature(megaType, true).apply(battlePokemon.getEffectedPokemon());
+                ServerPlayerEntity player = battlePokemon.getOriginalPokemon().getOwnerPlayer();
+                if (player == null) return Unit.INSTANCE;
+                CobblemonMegas.getInstance().getHasMegaEvolvedThisBattle().add(player.getUuid());
+                MegaUtils.updateKeyStoneGlow(player);
                 return Unit.INSTANCE;
             });
         }

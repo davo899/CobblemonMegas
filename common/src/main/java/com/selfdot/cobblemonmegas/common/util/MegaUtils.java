@@ -10,9 +10,17 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.selfdot.cobblemonmegas.common.CobblemonMegas;
 import com.selfdot.cobblemonmegas.common.DataKeys;
 import com.selfdot.cobblemonmegas.common.item.MegaStoneHeldItemManager;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 public class MegaUtils {
@@ -71,6 +79,72 @@ public class MegaUtils {
     public static void deMegaEvolve(Pokemon pokemon) {
         Stream.of(DataKeys.MEGA, DataKeys.MEGA_X, DataKeys.MEGA_Y)
             .forEach(megaAspect -> new FlagSpeciesFeature(megaAspect, false).apply(pokemon));
+    }
+
+    private static void sendError(ServerPlayerEntity player, String error) {
+        player.sendMessage(Text.literal(Formatting.RED + error));
+    }
+
+    public static void updateKeyStoneGlow(ItemStack itemStack, PlayerEntity player) {
+        NbtCompound nbt = itemStack.getNbt();
+        if (nbt == null || !nbt.getBoolean(DataKeys.NBT_KEY_KEY_STONE)) return;
+        if (CobblemonMegas.getInstance().getToMegaEvolveThisTurn().contains(player.getUuid())) {
+            NbtList enchantmentsNbt = new NbtList();
+            enchantmentsNbt.add(new NbtCompound());
+            nbt.put("Enchantments", enchantmentsNbt);
+        } else {
+            nbt.remove("Enchantments");
+        }
+    }
+
+    public static void updateKeyStoneGlow(PlayerEntity player) {
+        for (int i = 0; i < player.getInventory().size(); i++) {
+            updateKeyStoneGlow(player.getInventory().getStack(i), player);
+        }
+    }
+
+    public static boolean attemptMegaEvolveInBattle(ServerPlayerEntity player, boolean shouldTellSuccess) {
+        PokemonBattle battle = BattleRegistry.INSTANCE.getBattleByParticipatingPlayer(player);
+        if (battle == null) {
+            sendError(player, "This can only be used in battle.");
+            return false;
+        }
+
+        BattleActor playerBattleActor = battle.getActor(player);
+        if (playerBattleActor == null) return false;
+        List<ActiveBattlePokemon> activeBattlePokemon = playerBattleActor.getActivePokemon();
+        if (activeBattlePokemon.size() != 1) return false;
+        BattlePokemon battlePokemon = activeBattlePokemon.get(0).getBattlePokemon();
+        if (battlePokemon == null) return false;
+        Pokemon pokemon = battlePokemon.getEffectedPokemon();
+
+        Set<UUID> toMegaEvolveThisTurn = CobblemonMegas.getInstance().getToMegaEvolveThisTurn();
+        UUID actorId = playerBattleActor.getUuid();
+        if (toMegaEvolveThisTurn.contains(actorId)) {
+            toMegaEvolveThisTurn.remove(actorId);
+            updateKeyStoneGlow(player);
+            if (shouldTellSuccess) {
+                player.sendMessage(Text.literal(
+                    pokemon.getDisplayName().getString() + " will no longer mega evolve this turn."
+                ));
+            }
+            return true;
+        }
+
+        String reasonCannotMegaEvolve = MegaUtils.reasonCannotMegaEvolve(player, pokemon);
+        if (reasonCannotMegaEvolve != null) {
+            sendError(player, reasonCannotMegaEvolve);
+            return false;
+        }
+
+        toMegaEvolveThisTurn.add(actorId);
+        updateKeyStoneGlow(player);
+        if (shouldTellSuccess) {
+            player.sendMessage(Text.literal(
+                pokemon.getDisplayName().getString() + " will mega evolve this turn if a move is used."
+            ));
+        }
+        return true;
     }
 
 }

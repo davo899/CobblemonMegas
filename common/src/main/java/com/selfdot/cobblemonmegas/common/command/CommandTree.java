@@ -87,6 +87,17 @@ public class CommandTree {
                 )
             )
         );
+        dispatcher.register(LiteralArgumentBuilder.<ServerCommandSource>
+            literal("givekeystone")
+            .requires(source ->
+                !CobblemonMegas.getInstance().isDisabled() &&
+                CommandUtils.hasPermission(source, "selfdot.megas.givekeystone")
+            )
+            .then(RequiredArgumentBuilder.<ServerCommandSource, EntitySelector>
+                argument("players", EntityArgumentType.players())
+                .executes(new GiveKeyStoneCommand())
+            )
+        );
     }
 
     private static CompletableFuture<Suggestions> megaStoneIDSuggestions(
