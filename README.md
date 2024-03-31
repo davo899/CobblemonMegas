@@ -27,8 +27,7 @@ Commands:
 - Will only suggest/work on whitelisted mega stones.
 ---
 **/givekeystone &lt;player&gt;** (Permission: "selfdot.megas.givekeystone")
-- Gives the player the specified mega stone.
-- Will only suggest/work on whitelisted mega stones.
+- Gives the player a key stone.
 ---
 **/megas reload** (Permission: "selfdot.megas.reload")
 - Reloads config file.
