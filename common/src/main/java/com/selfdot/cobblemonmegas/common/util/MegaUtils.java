@@ -40,6 +40,11 @@ public class MegaUtils {
         if (pokemon.getSpecies().getName().equalsIgnoreCase("rayquaza")) {
             if (!CobblemonMegas.getInstance().getConfig().isMegaRayquazaAllowed()) {
                 return "Mega Rayquaza is not allowed on this server.";
+            } else if (
+                pokemon.getMoveSet().getMoves().stream()
+                    .noneMatch(move -> move.getName().equalsIgnoreCase("dragonascent"))
+            ) {
+                return "Rayquaza must know Dragon Ascent to mega evolve.";
             }
         } else if (
             !CobblemonMegas.getInstance().getConfig().getMegaStoneWhitelist().contains(

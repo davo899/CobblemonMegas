@@ -8,7 +8,8 @@
   - Key Stone (Sun/Moon)
   - Key Stone (Let's Go Pikachu/Eevee)
 - Added /givekeystone \<keyStoneType\> \<player\> (selfdot.megas.givekeystone)
-- Changed key stone and mega stone item names to not be in italics
+- Changed key stone and mega stone item names to not be in italics.
+- Fixed Rayquaza being allowed to mega evolve without Dragon Ascent.
 
 # 1.0.2
 
