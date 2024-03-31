@@ -93,9 +93,16 @@ public class CommandTree {
                 !CobblemonMegas.getInstance().isDisabled() &&
                 CommandUtils.hasPermission(source, "selfdot.megas.givekeystone")
             )
-            .then(RequiredArgumentBuilder.<ServerCommandSource, EntitySelector>
-                argument("players", EntityArgumentType.players())
-                .executes(new GiveKeyStoneCommand())
+            .then(RequiredArgumentBuilder.<ServerCommandSource, String>
+                argument("keyStone", string())
+                .suggests((context, builder) -> {
+                    GiveKeyStoneCommand.KEY_STONE_TYPES.keySet().forEach(builder::suggest);
+                    return builder.buildFuture();
+                })
+                .then(RequiredArgumentBuilder.<ServerCommandSource, EntitySelector>
+                    argument("players", EntityArgumentType.players())
+                    .executes(new GiveKeyStoneCommand())
+                )
             )
         );
     }

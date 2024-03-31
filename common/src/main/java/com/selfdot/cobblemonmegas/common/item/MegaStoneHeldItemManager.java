@@ -9,6 +9,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.pokemon.Species;
 import com.selfdot.cobblemonmegas.common.CobblemonMegas;
 import com.selfdot.cobblemonmegas.common.DataKeys;
+import com.selfdot.cobblemonmegas.common.util.ItemUtils;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -39,13 +40,14 @@ public class MegaStoneHeldItemManager implements HeldItemManager {
         if (nbt == null) nbt = new NbtCompound();
         nbt.putString(DataKeys.NBT_KEY_MEGA_STONE, id);
         nbt.putInt("CustomModelData", customModelData(id));
+        nbt.putBoolean("italic", false);
         megaStone.setNbt(nbt);
         String displayName = id.substring(0, 1).toUpperCase() + id.substring(1);
         if (displayName.endsWith("x") || displayName.endsWith("y")) {
             displayName = displayName.substring(0, id.length() - 1) +
                 displayName.substring(id.length() - 1).toUpperCase();
         }
-        megaStone.setCustomName(Text.literal(displayName));
+        ItemUtils.setNameNoItalics(megaStone, displayName);
         return megaStone;
     }
 

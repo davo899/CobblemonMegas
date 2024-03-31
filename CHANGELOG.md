@@ -1,7 +1,14 @@
 # 1.1.0
 
-- Added key stone item which can be used to mega evolve in battle.
-- Added /givekeystone \<player\> (selfdot.megas.givekeystone)
+- Added key stone items which can be used to mega evolve in battle:
+  - Mega Ring
+  - Mega Bracelet
+  - Mega Cuff
+  - Mega Charm
+  - Key Stone (Sun/Moon)
+  - Key Stone (Let's Go Pikachu/Eevee)
+- Added /givekeystone \<keyStoneType\> \<player\> (selfdot.megas.givekeystone)
+- Changed key stone and mega stone item names to not be in italics
 
 # 1.0.2
 
