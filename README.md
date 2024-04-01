@@ -45,3 +45,7 @@ Resource Packs:
 For custom mega stone textures, you can use this resource pack: https://www.curseforge.com/minecraft/texture-packs/sanjimegastones
 
 To add models for mega-form pokémon, the model resolver must add the "mega" aspect (or "mega-x" or "mega-y" for Charizard and Mewtwo).
+
+Graphics by twsparklecat
+
+[![image](https://media.forgecdn.net/attachments/description/959503/description_ec38fa43-4312-4aea-b11d-849dbdd062b1.png)](https://discord.gg/y8K2HYDBuX)
