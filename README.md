@@ -2,6 +2,8 @@ This mod is server-side only, and adds game-accurate Mega Evolution battle mecha
 
 Mega stones are required for mega evolution, and can be set up with custom textures using a resource pack.
 
+Key stone items can be used to mega evolve in battle.
+
 Mega form models for Pokémon can also be setup as described below.
 
 Commands:
