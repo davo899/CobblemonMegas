@@ -1,9 +1,7 @@
 {
   "required": true,
   "package": "com.selfdot.cobblemonmegas.common.mixin",
-  "compatibilityLevel": "JAVA_16",
-  "minVersion": "0.8",
-  "client": [],
+  "compatibilityLevel": "JAVA_17",
   "mixins": [
     "BattleActorMixin",
     "ItemMixin",

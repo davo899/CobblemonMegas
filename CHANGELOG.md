@@ -1,5 +1,7 @@
-# 1.1.0
+# 1.1.1
+- Increased mixin compatibility level from Java 16 to Java 17.
 
+# 1.1.0
 - Added key stone items which can be used to mega evolve in battle:
   - Mega Ring
   - Mega Bracelet
@@ -12,10 +14,8 @@
 - Fixed Rayquaza being allowed to mega evolve without Dragon Ascent.
 
 # 1.0.2
-
 - Added config option "megaRayquazaAllowed" to control whether mega rayquaza can be used.
 - Fixed /givemegastone only being usable by players.
 
 # 1.0.1
-
 - Fixed Forge crash on startup
