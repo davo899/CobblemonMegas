@@ -18,11 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Item.class)
 public abstract class ItemMixin {
 
-    @Inject(
-        method = "use",
-        at = @At(value = "INVOKE", target = "Lnet/minecraft/item/Item;isFood()Z"),
-        cancellable = true
-    )
+    @Inject(method = "use", at = @At("HEAD"), cancellable = true)
     private void injectUse(
         World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<TypedActionResult<ItemStack>> cir
     ) {

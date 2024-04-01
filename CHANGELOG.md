@@ -1,3 +1,6 @@
+# 1.1.2
+- Fixed crash on start when using Arclight.
+
 # 1.1.1
 - Increased mixin compatibility level from Java 16 to Java 17.
 
