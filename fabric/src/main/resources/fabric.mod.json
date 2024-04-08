@@ -15,6 +15,9 @@
     "main": [
       "com.selfdot.cobblemonmegas.fabric.CobblemonMegasFabric"
     ],
+    "server": [
+      "com.selfdot.cobblemonmegas.fabric.server.CobblemonMegasFabricServer"
+    ],
     "client": []
   },
   "mixins": [

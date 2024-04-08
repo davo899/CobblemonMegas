@@ -20,6 +20,7 @@ sourceSets {
 repositories {
     mavenLocal()
     maven("https://maven.impactdev.net/repository/development/")
+    maven("https://oss.sonatype.org/content/repositories/snapshots")
 }
 
 dependencies {
@@ -38,7 +39,7 @@ dependencies {
 
     modImplementation(libs.fabricLoader)
     modApi(libs.fabricApi)
-    //modApi(libs.fabricKotlin)
+    modApi(libs.fabricPermissionsApi)
     modApi(libs.architecturyFabric)
 }
 

@@ -9,6 +9,8 @@ import com.cobblemon.mod.common.api.pokemon.feature.SpeciesFeatures;
 import com.cobblemon.mod.common.api.pokemon.helditem.HeldItemProvider;
 import com.cobblemon.mod.common.pokemon.Species;
 import com.selfdot.cobblemonmegas.common.command.CommandTree;
+import com.selfdot.cobblemonmegas.common.command.permissions.PermissionValidator;
+import com.selfdot.cobblemonmegas.common.command.permissions.VanillaPermissionValidator;
 import com.selfdot.cobblemonmegas.common.item.MegaStoneHeldItemManager;
 import com.selfdot.cobblemonmegas.common.util.DisableableMod;
 import com.selfdot.cobblemonmegas.common.util.MegaUtils;
@@ -38,6 +40,7 @@ public class CobblemonMegas extends DisableableMod {
     }
 
     private MinecraftServer server;
+    private PermissionValidator permissionValidator = new VanillaPermissionValidator();
     private final Set<UUID> TO_MEGA_EVOLVE_THIS_TURN = new HashSet<>();
     private final Set<UUID> HAS_MEGA_EVOLVED_THIS_BATTLE = new HashSet<>();
 
@@ -53,6 +56,14 @@ public class CobblemonMegas extends DisableableMod {
 
     public Set<UUID> getHasMegaEvolvedThisBattle() {
         return HAS_MEGA_EVOLVED_THIS_BATTLE;
+    }
+
+    public PermissionValidator getPermissionValidator() {
+        return permissionValidator;
+    }
+
+    public void setPermissionValidator(PermissionValidator permissionValidator) {
+        this.permissionValidator = permissionValidator;
     }
 
     public Config getConfig() {

@@ -9,7 +9,6 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import com.selfdot.cobblemonmegas.common.CobblemonMegas;
 import com.selfdot.cobblemonmegas.common.item.MegaStoneHeldItemManager;
-import com.selfdot.cobblemonmegas.common.util.CommandUtils;
 import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.EntitySelector;
 import net.minecraft.command.argument.EntityArgumentType;
@@ -19,6 +18,7 @@ import net.minecraft.server.command.ServerCommandSource;
 import java.util.concurrent.CompletableFuture;
 
 import static com.mojang.brigadier.arguments.StringArgumentType.string;
+import static com.selfdot.cobblemonmegas.common.command.permissions.MegasPermissions.*;
 
 public class CommandTree {
 
@@ -29,10 +29,7 @@ public class CommandTree {
     ) {
         dispatcher.register(LiteralArgumentBuilder.<ServerCommandSource>
             literal("megas")
-            .requires(source ->
-                !CobblemonMegas.getInstance().isDisabled() &&
-                CommandUtils.hasPermission(source, "selfdot.megas.reload")
-            )
+            .requires(source -> CobblemonMegas.getInstance().getPermissionValidator().hasPermission(source, RELOAD))
             .then(LiteralArgumentBuilder.<ServerCommandSource>
                 literal("reload")
                 .executes(new ReloadCommand())
@@ -43,7 +40,7 @@ public class CommandTree {
             .requires(source ->
                 !CobblemonMegas.getInstance().isDisabled() &&
                 source.isExecutedByPlayer() &&
-                CommandUtils.hasPermission(source, "selfdot.megas.megaevolve")
+                CobblemonMegas.getInstance().getPermissionValidator().hasPermission(source, MEGA_EVOLVE)
             )
             .executes(new MegaEvolveInBattleCommand())
         );
@@ -52,7 +49,7 @@ public class CommandTree {
             .requires(source ->
                 !CobblemonMegas.getInstance().isDisabled() &&
                 source.isExecutedByPlayer() &&
-                CommandUtils.hasPermission(source, "selfdot.megas.megaevolveslot")
+                CobblemonMegas.getInstance().getPermissionValidator().hasPermission(source, MEGA_EVOLVE_SLOT)
             )
             .then(RequiredArgumentBuilder.<ServerCommandSource, Integer>
                 argument("pokemon", PartySlotArgumentType.Companion.partySlot())
@@ -64,7 +61,7 @@ public class CommandTree {
             .requires(source ->
                 !CobblemonMegas.getInstance().isDisabled() &&
                 source.isExecutedByPlayer() &&
-                CommandUtils.hasPermission(source, "selfdot.megas.getmegastone")
+                CobblemonMegas.getInstance().getPermissionValidator().hasPermission(source, GET_MEGA_STONE)
             )
             .then(RequiredArgumentBuilder.<ServerCommandSource, String>
                 argument("megaStone", string())
@@ -76,7 +73,7 @@ public class CommandTree {
             literal("givemegastone")
             .requires(source ->
                 !CobblemonMegas.getInstance().isDisabled() &&
-                CommandUtils.hasPermission(source, "selfdot.megas.givemegastone")
+                CobblemonMegas.getInstance().getPermissionValidator().hasPermission(source, GIVE_MEGA_STONE)
             )
             .then(RequiredArgumentBuilder.<ServerCommandSource, String>
                 argument("megaStone", string())
@@ -91,7 +88,7 @@ public class CommandTree {
             literal("givekeystone")
             .requires(source ->
                 !CobblemonMegas.getInstance().isDisabled() &&
-                CommandUtils.hasPermission(source, "selfdot.megas.givekeystone")
+                CobblemonMegas.getInstance().getPermissionValidator().hasPermission(source, GIVE_KEY_STONE)
             )
             .then(RequiredArgumentBuilder.<ServerCommandSource, String>
                 argument("keyStone", string())
