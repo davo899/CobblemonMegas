@@ -2,7 +2,6 @@ package com.selfdot.cobblemonmegas.forge
 
 import com.selfdot.cobblemonmegas.common.CobblemonMegas
 import com.selfdot.cobblemonmegas.common.DataKeys
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type.Void
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.DistExecutor
