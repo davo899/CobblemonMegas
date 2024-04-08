@@ -15,7 +15,7 @@ public abstract class PokemonBattleMixin {
     @Inject(method = "end", at = @At("TAIL"), remap = false)
     private void injectEnd(CallbackInfo ci) {
         PokemonBattle thisBattle = (PokemonBattle)(Object)this;
-        MegaUtils.deMegaEvolveAll(thisBattle);
+        MegaUtils.deMegaEvolveAllPlayers(thisBattle);
         thisBattle.getActors().forEach(
             actor -> {
                 CobblemonMegas.getInstance().getHasMegaEvolvedThisBattle().remove(actor.getUuid());

@@ -75,9 +75,12 @@ public class MegaUtils {
         return null;
     }
 
-    public static void deMegaEvolveAll(PokemonBattle battle) {
+    public static void deMegaEvolveAllPlayers(PokemonBattle battle) {
         battle.getActors().forEach(
-            actor -> actor.getPokemonList().forEach(battlePokemon -> deMegaEvolve(battlePokemon.getOriginalPokemon()))
+            actor -> {
+                if (!actor.getPlayerUUIDs().iterator().hasNext()) return;
+                actor.getPokemonList().forEach(battlePokemon -> deMegaEvolve(battlePokemon.getOriginalPokemon()));
+            }
         );
     }
 

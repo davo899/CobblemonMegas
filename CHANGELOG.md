@@ -1,3 +1,6 @@
+# 1.1.3
+- Fixed Mega raid bosses in CobblemonRaids being changed to normal form on first battle.
+
 # 1.1.2
 - Fixed crash on start when using Arclight.
 

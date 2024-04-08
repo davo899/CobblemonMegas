@@ -93,7 +93,7 @@ public class CobblemonMegas extends DisableableMod {
     }
 
     private Unit onBattleStartedPre(BattleStartedPreEvent event) {
-        MegaUtils.deMegaEvolveAll(event.getBattle());
+        MegaUtils.deMegaEvolveAllPlayers(event.getBattle());
         return Unit.INSTANCE;
     }
 
