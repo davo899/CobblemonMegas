@@ -10,6 +10,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.selfdot.cobblemonmegas.common.CobblemonMegas;
 import com.selfdot.cobblemonmegas.common.DataKeys;
 import com.selfdot.cobblemonmegas.common.item.MegaStoneHeldItemManager;
+import lombok.extern.slf4j.Slf4j;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -23,6 +24,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+@Slf4j
 public class MegaUtils {
 
     public static String reasonCannotMegaEvolve(ServerPlayerEntity player, Pokemon pokemon) {
@@ -66,7 +68,7 @@ public class MegaUtils {
         List<ActiveBattlePokemon> activeBattlePokemon = playerBattleActor.getActivePokemon();
         if (activeBattlePokemon.size() != 1) return "Mega evolution is currently only available in 1v1 battles.";
         BattlePokemon battlePokemon = activeBattlePokemon.get(0).getBattlePokemon();
-        if (battlePokemon == null) return "BattlePokemon is null (Report this error)";
+        if (battlePokemon == null) battlePokemon = playerBattleActor.getPokemonList().get(0);
 
         if (!battlePokemon.getEffectedPokemon().getUuid().equals(pokemon.getUuid())) {
             return "This is not your active battle Pokémon.";

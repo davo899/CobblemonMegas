@@ -5,7 +5,7 @@ import net.minecraftforge.fml.DistExecutor
 
 class SetPermissionValidatorRunnable : DistExecutor.SafeRunnable {
     override fun run() {
-        CobblemonMegas.getInstance().setPermissionValidator(ForgePermissionValidator())
+        CobblemonMegas.getInstance().permissionValidator = ForgePermissionValidator()
     }
 
 }

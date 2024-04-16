@@ -1,3 +1,6 @@
+# 1.2.0
+- Added mega evolve button in battle GUI (still only requires mod on server-side)
+
 # 1.1.3
 - Fixed Mega raid bosses in CobblemonRaids being changed to normal form on first battle.
 - Fixed permissions not working on Arclight.
