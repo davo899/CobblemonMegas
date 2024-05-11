@@ -8,7 +8,7 @@
     "ItemMixin",
     "PokemonBattleMixin",
     "ShowdownActionRequestMixin",
-    "ShowdownInterpreterMixin",
+    "DetailsChangeInstructionMixin",
     "ShowdownSpeciesMixin"
   ],
   "injectors": {
